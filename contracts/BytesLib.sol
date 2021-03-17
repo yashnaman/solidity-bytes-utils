@@ -402,6 +402,22 @@ library BytesLib {
 
         return tempBytes32;
     }
+    
+    function toBytes4(bytes memory _bytes, uint256 _start)
+        internal
+        pure
+        returns (bytes4)
+    {
+        require(_start + 4 >= _start, 'toBytes4_overflow');
+        require(_bytes.length >= _start + 4, 'toBytes4_outOfBounds');
+        bytes4 tempBytes4;
+
+        assembly {
+            tempBytes4 := mload(add(add(_bytes, 0x20), _start))
+        }
+
+        return tempBytes4;
+    }
 
     function equal(bytes memory _preBytes, bytes memory _postBytes) internal pure returns (bool) {
         bool success = true;
